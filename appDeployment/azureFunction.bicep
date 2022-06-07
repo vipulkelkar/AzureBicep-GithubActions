@@ -2,6 +2,7 @@ param location string = resourceGroup().location
 param env string
 param functionAppName string
 param appPlanId string
+param storageAccountName string
 
 @secure()
 param appInsightInstrumentationKey string
@@ -19,12 +20,12 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
     siteConfig:{
       appSettings:[
         {
-          'name':''
-          'value':''
+          'name':'APPINSIGHTS_INSTRUMENTATIONKEY'
+          'value':'${appInsightInstrumentationKey}'
         }
         {
-          'name':''
-          'value':''
+          'name':'AzureWebJobsStorage'
+          'value':'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};AccountKey=${storageAccountKey};EndpointSuffix=core.windows.net'
         }
       ]
     }

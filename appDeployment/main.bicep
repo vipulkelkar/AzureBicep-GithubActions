@@ -1,20 +1,70 @@
+targetScope = 'resourceGroup'
+
 param location string = resourceGroup().location
 param storageAccountName string
-param env string
+param appInsightName string
+param appServicePlanName string
+param functionAppName string
+param keyVaultName string
+param keyVaultSecretName string
+param keyVaultSecretValue string
+param tenantId string
+param environment string
 
-resource stgAccount 'Microsoft.Storage/storageAccounts@2021-09-01' = {
-  name:'myteststgacc'
-  location:location
-  tags:{
-    environment:env
-  }
-  kind:'StorageV2'
-  sku:{
-    name:'Standard_LRS'
+
+module appInsight 'appInsight.bicep' = {
+  name:'appInsight'
+  params:{
+    appInsightName:appInsightName
+    env:environment
+    location:location
   }
 }
 
-output stgAccountID string = stgAccount.id
-output stgAccountName string = stgAccount.name
-var accountKey = listkeys(stgAccount.id,stgAccount.apiVersion).keys[0].value
-output stgAccountKey string = accountKey
+
+module storageAccount 'storageAccount.bicep' = {
+  name:'storageAccount'
+  params:{
+    env:environment
+    storageAccountName:storageAccountName
+    location:location
+  }
+}
+
+module appServicePlan 'appServicePlan.bicep' = {
+  name:'appServicePlan'
+  params:{
+    appServicePlanName:appServicePlanName
+    env:environment
+    location:location
+  }
+}
+
+module azureFunctionApp 'azureFunction.bicep' = {
+  name:'functionApp'
+  params:{
+    appInsightInstrumentationKey:appInsight.outputs.appInsightInstrumentationKey
+    appPlanId:appServicePlan.outputs.appPlanId
+    env:environment
+    functionAppName:functionAppName
+    storageAccountKey:storageAccount.outputs.stgAccountKey
+    location:location
+    storageAccountName:storageAccount.outputs.stgAccountName
+  }
+  dependsOn:[
+    storageAccount
+    appServicePlan
+  ]
+}
+
+module keyVault 'keyVault.bicep' = {
+  name:'KeyVault'
+  params:{
+    env:environment
+    keyVaultName:keyVaultName
+    secretName:keyVaultSecretName
+    tenantId:tenantId
+    topSecretValue:keyVaultSecretValue
+    location:location
+  }
+}
