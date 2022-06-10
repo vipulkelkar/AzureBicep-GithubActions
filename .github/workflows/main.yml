@@ -7,19 +7,19 @@ on:
           type: environment
 env:
   parameters.location.value: 'east us'
-  parameters.storageAccountName.value: amstststg{{github.event.inputs.environment}}
-  parameters.appInsightName.value: amststappinsight{{github.event.inputs.environment}}
-  parameters.appServicePlanName.value: amstest{{github.event.inputs.environment}}-asp
-  parameters.functionAppName.value: amststfuncapp{{github.event.inputs.environment}}
-  parameters.keyVaultName.value: amststvault{{github.event.inputs.environment}}
+  parameters.storageAccountName.value: amstststg${{ inputs.environment }}
+  parameters.appInsightName.value: amststappinsight${{ inputs.environment }}
+  parameters.appServicePlanName.value: amstest${{ inputs.environment }}-asp
+  parameters.functionAppName.value: amststfuncapp${{ inputs.environment }}
+  parameters.keyVaultName.value: amststvault${{ inputs.environment }}
   parameters.keyVaultSecretName.value: amstestsecret
-  parameters.vnetName.value: amstestVnet{{github.event.inputs.environment}}
-  parameters.subnetName.value: amstestSubnet{{github.event.inputs.environment}}
+  parameters.vnetName.value: amstestVnet${{ inputs.environment }}
+  parameters.subnetName.value: amstestSubnet${{ inputs.environment }}
   parameters.keyVaultSecretValue.value: topsecretvalue
   parameters.tenantId.value: 3a6e195f-a33b-4031-a66a-0434183703d9
   parameters.environment.value: DEV
-  parameters.resourceGroup.value: amsPune-{{github.event.inputs.environment}}
-  resourceGroup: amsPune-{{github.event.inputs.environment}}
+  parameters.resourceGroup.value: amsPune-${{ inputs.environment }}
+  resourceGroup: amsPune-${{ inputs.environment }}
 
 name: My App Deployment
 jobs:
