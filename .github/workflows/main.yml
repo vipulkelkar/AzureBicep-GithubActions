@@ -6,12 +6,12 @@ on:
           required: true
 name: Deploy Azure resources
 jobs:
-  build-and-deploy:
+  create-azure-resources:
     runs-on: ubuntu-latest
     steps:
 
       # Checkout code
-    - uses: actions/checkout@main
+    - uses: actions/checkout@v3
       with:
         ref: dev
 
@@ -26,5 +26,6 @@ jobs:
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
         resourceGroupName: ${{ secrets.AZURE_RG }}
-        template: ./appDeployment/randompath/main.bicep
+        template: ./appDeployment/main.bicep
+        parameters: ./devparameters.json
         failOnStdErr: false

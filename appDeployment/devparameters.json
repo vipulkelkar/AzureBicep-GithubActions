@@ -1,0 +1,39 @@
+{
+               "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+               "contentVersion": "1.0.0.0",
+               "parameters": {
+                              "storageAccountName": {
+                                             "value": "amstststg"
+                              },
+                              "appInsightName": {
+                                             "value": "amststappinsight"
+                              },
+                              "functionAppName": {
+                                             "value": "amststfuncapp"
+                              },
+                              "keyVaultName": {
+                                             "value": "amststvault"
+                              },
+                              "keyVaultSecretName": {
+                                             "value": "amstestsecret"
+                              },
+                              "keyVaultSecretValue": {
+                                             "value": "topsecretvalue"
+                              },
+                              "tenantId": {
+                                             "value": "3a6e195f-a33b-4031-a66a-0434183703d9"
+                              },
+                              "environment": {
+                                             "value": "TEST"
+                              },
+                              "appServicePlanName":{
+                                             "value": "amstest-asp"
+                              },
+                              "vnetName":{
+                                             "value": "amstestVnet"
+                              },
+                              "subnetName":{
+                                             "value": "amstestSubnet"
+                              }
+               }
+}
