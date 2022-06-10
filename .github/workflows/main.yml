@@ -1,10 +1,27 @@
 on:
   workflow_dispatch:
     inputs:
-        releaseDescription:
-          description: 'Provide a release description.'
+        environment:
+          description: 'Provide the release environment'
           required: true
-name: Deploy Azure resources
+          type: environment
+
+env:
+  location: 'east us'
+  storageAccountName: amstststg
+  appInsightName: amststappinsight
+  appServicePlanName: amstest-asp
+  functionAppName: amststfuncapp
+  keyVaultName: amststvault
+  keyVaultSecretName: amstestsecret
+  vnetName: amstestVnet
+  subnetName: amstestSubnet
+  keyVaultSecretValue: topsecretvalue
+  tenantId: 3a6e195f-a33b-4031-a66a-0434183703d9
+  environment: DEV
+  resourceGroup: amsPune-DEV
+
+name: My awesome app deployment
 jobs:
   create-azure-resources:
     runs-on: ubuntu-latest
@@ -25,7 +42,7 @@ jobs:
       uses: azure/arm-deploy@v1
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-        resourceGroupName: ${{ secrets.AZURE_RG }}
+        resourceGroupName: ${{ env.resourceGroup }}
         template: ./appDeployment/main.bicep
         parameters: ./devparameters.json
         failOnStdErr: false
