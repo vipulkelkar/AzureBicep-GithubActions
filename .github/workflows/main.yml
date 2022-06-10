@@ -6,26 +6,21 @@ on:
           required: true
           type: environment
 
-env:
-  parameters.location.value: 'east us'
-  parameters.storageAccountName.value: amstststg
-  parameters.appInsightName.value: amststappinsight
-  parameters.appServicePlanName.value: amstest-asp
-  parameters.functionAppName.value: amststfuncapp
-  parameters.keyVaultName.value: amststvault
-  parameters.keyVaultSecretName.value: amstestsecret
-  parameters.vnetName.value: amstestVnet
-  parameters.subnetName.value: amstestSubnet
-  parameters.keyVaultSecretValue.value: topsecretvalue
-  parameters.tenantId.value: 3a6e195f-a33b-4031-a66a-0434183703d9
-  parameters.environment.value: DEV
-  parameters.resourceGroup.value: amsPune-DEV
-  resourceGroup: amsPune-DEV
-
-name: My awesome app deployment
+name: My App Deployment
 jobs:
-  create-azure-resources:
+  setup-DEV-specific-parameters:
+    runs-on: ubuntu-latest
     environment: DEV
+    steps:
+      - uses: ./.github/workflows/devParams
+
+  setup-UAT-specific-parameters:
+    runs-on: ubuntu-latest
+    environment: UAT
+    steps:
+      - uses: ./.github/workflows/uatParams
+
+  create-azure-resources:
     runs-on: ubuntu-latest
     steps:
 

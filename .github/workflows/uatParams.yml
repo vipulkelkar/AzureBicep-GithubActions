@@ -1,0 +1,17 @@
+on:
+  workflow_call:
+env:
+  parameters.location.value: 'east us'
+  parameters.storageAccountName.value: amstststguat
+  parameters.appInsightName.value: amststappinsightuat
+  parameters.appServicePlanName.value: amstestuat-asp
+  parameters.functionAppName.value: amststfuncappuat
+  parameters.keyVaultName.value: amststvaultuat
+  parameters.keyVaultSecretName.value: amstestsecret
+  parameters.vnetName.value: amstestVnetuat
+  parameters.subnetName.value: amstestSubnetuat
+  parameters.keyVaultSecretValue.value: topsecretvalueuat
+  parameters.tenantId.value: 3a6e195f-a33b-4031-a66a-0434183703d9
+  parameters.environment.value: UAT
+  parameters.resourceGroup.value: amsPune-UAT
+  resourceGroup: amsPune-UAT
