@@ -31,9 +31,9 @@
                               },
                               "vnetName":{
                                              "value": "amstestVnet"
-                              },
-                              "subnetName":{
-                                             "value": "amstestSubnet"
                               }
+                              // "subnetName":{
+                              //                "value": "amstestSubnet"
+                              // }
                }
 }
