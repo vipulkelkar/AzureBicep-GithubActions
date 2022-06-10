@@ -24,7 +24,7 @@ env:
 name: My App Deployment
 jobs:
   create-azure-resources:
-    environment: DEV,UAT,PROD
+    environment: DEV
     runs-on: ubuntu-latest
     steps:
 
