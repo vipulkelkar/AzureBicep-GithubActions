@@ -5,21 +5,25 @@ on:
           description: 'Provide the release environment'
           required: true
           type: environment
+env:
+  environment: {{github.event.inputs.environment}}
+  parameters.location.value: 'east us'
+  parameters.storageAccountName.value: amstststg{{env.environment}}
+  parameters.appInsightName.value: amststappinsight{{env.environment}}
+  parameters.appServicePlanName.value: amstest{{env.environment}}-asp
+  parameters.functionAppName.value: amststfuncapp{{env.environment}}
+  parameters.keyVaultName.value: amststvault{{env.environment}}
+  parameters.keyVaultSecretName.value: amstestsecret
+  parameters.vnetName.value: amstestVnet{{env.environment}}
+  parameters.subnetName.value: amstestSubnet{{env.environment}}
+  parameters.keyVaultSecretValue.value: topsecretvalue
+  parameters.tenantId.value: 3a6e195f-a33b-4031-a66a-0434183703d9
+  parameters.environment.value: DEV
+  parameters.resourceGroup.value: amsPune-{{env.environment}}
+  resourceGroup: amsPune-{{env.environment}}
 
 name: My App Deployment
 jobs:
-  setup-DEV-specific-parameters:
-    runs-on: ubuntu-latest
-    environment: DEV
-    steps:
-      - uses: vipulkelkar/AzureBicep-GithubActions/.github/workflows/devParams.yml@main
-
-  setup-UAT-specific-parameters:
-    runs-on: ubuntu-latest
-    environment: UAT
-    steps:
-      - uses: vipulkelkar/AzureBicep-GithubActions/.github/workflows/uatParams.yml@main
-
   create-azure-resources:
     runs-on: ubuntu-latest
     steps:
