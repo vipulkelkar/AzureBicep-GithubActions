@@ -79,6 +79,6 @@ module keyVault 'keyVault.bicep' = {
     tenantId:tenantId
     topSecretValue:keyVaultSecretValue
     location:location
-    subnetId:vnet.outputs.subnetId
+    //subnetId:vnet.outputs.subnetId
   }
 }
