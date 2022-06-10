@@ -38,7 +38,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    -name: JSON substitution for Bicep parameters file
+    - name: JSON substitution for Bicep parameters file
     - uses: microsoft/variable-substitution@v1 
       with:
         files: './appDeployment/parameters.json'
