@@ -21,7 +21,7 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
       appSettings:[
         {
           'name':'APPINSIGHTS_INSTRUMENTATIONKEY'
-          'value':'${appInsightInstrumentationKey}'
+          'value':appInsightInstrumentationKey
         }
         {
           'name':'AzureWebJobsStorage'

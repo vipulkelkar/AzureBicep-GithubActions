@@ -25,6 +25,9 @@
                               },
                               "environment": {
                                              "value": "TEST"
+                              },
+                              "appServicePlanName":{
+                                             "value": "amstest-asp"
                               }
                }
 }

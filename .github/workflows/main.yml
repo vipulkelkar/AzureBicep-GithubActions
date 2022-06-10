@@ -6,7 +6,7 @@ on:
           required: true
 name: Deploy Azure resources
 jobs:
-  build-and-deploy:
+  create-azure-resources:
     runs-on: ubuntu-latest
     steps:
 
@@ -26,6 +26,6 @@ jobs:
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
         resourceGroupName: ${{ secrets.AZURE_RG }}
-        template: ./appDeployment/main.bicep
-        parameters: ./appDeployment/bicepDeploy.parameters.json
+        template: ./main.bicep
+        parameters: ./devparameters.json
         failOnStdErr: false
