@@ -20,6 +20,7 @@ env:
   parameters.tenantId.value: 3a6e195f-a33b-4031-a66a-0434183703d9
   parameters.environment.value: DEV
   parameters.resourceGroup.value: amsPune-DEV
+  resourceGroup: amsPune-DEV
 
 name: My awesome app deployment
 jobs:
@@ -47,7 +48,7 @@ jobs:
       uses: azure/arm-deploy@v1
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-        resourceGroupName: ${{ env.parameters.resourceGroup.value }}
+        resourceGroupName: ${{ env.resourceGroup }}
         template: ./appDeployment/main.bicep
         parameters: ./appDeployment/parameters.json
         failOnStdErr: false
