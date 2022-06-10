@@ -11,7 +11,7 @@ jobs:
     steps:
 
       # Checkout code
-    - uses: actions/checkout@main
+    - uses: actions/checkout@v3
       with:
         ref: dev
 
@@ -27,5 +27,5 @@ jobs:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
         resourceGroupName: ${{ secrets.AZURE_RG }}
         template: ./appDeployment/main.bicep
-        parameters: ./appDeployment/bicepDeployment.parameters.json
+        parameters: ./appDeployment/bicepDeploy.parameters.json
         failOnStdErr: false
