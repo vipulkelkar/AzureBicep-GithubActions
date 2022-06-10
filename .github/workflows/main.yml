@@ -12,13 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     environment: DEV
     steps:
-      - uses: ./.github/workflows/devParams.yml@main
+      - uses: vipulkelkar/AzureBicep-GithubActions/.github/workflows/devParams.yml@main
 
   setup-UAT-specific-parameters:
     runs-on: ubuntu-latest
     environment: UAT
     steps:
-      - uses: ./.github/workflows/uatParams.yml@main
+      - uses: vipulkelkar/AzureBicep-GithubActions/.github/workflows/uatParams.yml@main
 
   create-azure-resources:
     runs-on: ubuntu-latest
