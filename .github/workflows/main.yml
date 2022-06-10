@@ -7,19 +7,19 @@ on:
           type: environment
 
 env:
-  location: 'east us'
-  storageAccountName: amstststg
-  appInsightName: amststappinsight
-  appServicePlanName: amstest-asp
-  functionAppName: amststfuncapp
-  keyVaultName: amststvault
-  keyVaultSecretName: amstestsecret
-  vnetName: amstestVnet
-  subnetName: amstestSubnet
-  keyVaultSecretValue: topsecretvalue
-  tenantId: 3a6e195f-a33b-4031-a66a-0434183703d9
-  environment: DEV
-  resourceGroup: amsPune-DEV
+  parameters.location.value: 'east us'
+  parameters.storageAccountName.value: amstststg
+  parameters.appInsightName.value: amststappinsight
+  parameters.appServicePlanName.value: amstest-asp
+  parameters.functionAppName.value: amststfuncapp
+  parameters.keyVaultName.value: amststvault
+  parameters.keyVaultSecretName.value: amstestsecret
+  parameters.vnetName.value: amstestVnet
+  parameters.subnetName.value: amstestSubnet
+  parameters.keyVaultSecretValue.value: topsecretvalue
+  parameters.tenantId.value: 3a6e195f-a33b-4031-a66a-0434183703d9
+  parameters.environment.value: DEV
+  parameters.resourceGroup.value: amsPune-DEV
 
 name: My awesome app deployment
 jobs:
@@ -38,12 +38,17 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+    -name: JSON substitution for Bicep parameters file
+    - uses: microsoft/variable-substitution@v1 
+      with:
+        files: './appDeployment/parameters.json'
+
       # Deploy Bicep file
-    - name: deploy
+    - name: deploy bicep file
       uses: azure/arm-deploy@v1
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
         resourceGroupName: ${{ env.resourceGroup }}
         template: ./appDeployment/main.bicep
-        parameters: ./devparameters.json
+        parameters: ./appDeployment/parameters.json
         failOnStdErr: false

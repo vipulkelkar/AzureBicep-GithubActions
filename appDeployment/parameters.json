@@ -3,37 +3,37 @@
                "contentVersion": "1.0.0.0",
                "parameters": {
                               "storageAccountName": {
-                                             "value": "amstststg"
+                                             "value": ""
                               },
                               "appInsightName": {
-                                             "value": "amststappinsight"
+                                             "value": ""
                               },
                               "functionAppName": {
-                                             "value": "amststfuncapp"
+                                             "value": ""
                               },
                               "keyVaultName": {
-                                             "value": "amststvault"
+                                             "value": ""
                               },
                               "keyVaultSecretName": {
-                                             "value": "amstestsecret"
+                                             "value": ""
                               },
                               "keyVaultSecretValue": {
-                                             "value": "topsecretvalue"
+                                             "value": ""
                               },
                               "tenantId": {
-                                             "value": "3a6e195f-a33b-4031-a66a-0434183703d9"
+                                             "value": ""
                               },
                               "environment": {
-                                             "value": "TEST"
+                                             "value": ""
                               },
                               "appServicePlanName":{
-                                             "value": "amstest-asp"
+                                             "value": ""
                               },
                               "vnetName":{
-                                             "value": "amstestVnet"
+                                             "value": ""
                               },
                               "subnetName":{
-                                             "value": "amstestSubnet"
+                                             "value": ""
                               }
                }
 }
