@@ -27,5 +27,5 @@ jobs:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
         resourceGroupName: ${{ secrets.AZURE_RG }}
         template: ./appDeployment/main.bicep
-        parameters: ./appDeployment/bicepDeploy.parameters.json
+        parameters: ./bicepDeploy.parameters.json
         failOnStdErr: false
