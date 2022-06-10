@@ -24,6 +24,7 @@ env:
 name: My awesome app deployment
 jobs:
   create-azure-resources:
+    environment: DEV
     runs-on: ubuntu-latest
     steps:
 
