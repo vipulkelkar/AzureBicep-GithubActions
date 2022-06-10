@@ -3,6 +3,7 @@ param env string
 param functionAppName string
 param appPlanId string
 param storageAccountName string
+param subnetId string
 
 @secure()
 param appInsightInstrumentationKey string
@@ -30,6 +31,15 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
       ]
     }
     serverFarmId:appPlanId
+  }
+}
+
+resource vnetIntegration 'Microsoft.Web/sites/networkConfig@2021-03-01' = {
+  name:'virtualNetwork'
+  parent:functionApp
+  properties:{
+    subnetResourceId:subnetId
+    swiftSupported:true
   }
 }
 

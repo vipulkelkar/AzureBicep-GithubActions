@@ -28,6 +28,12 @@
                               },
                               "appServicePlanName":{
                                              "value": "amstest-asp"
+                              },
+                              "vnetName":{
+                                             "value": "amstestVnet"
+                              },
+                              "subnetName":{
+                                             "value": "amstestSubnet"
                               }
                }
 }

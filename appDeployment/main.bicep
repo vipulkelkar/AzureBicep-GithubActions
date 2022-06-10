@@ -7,6 +7,8 @@ param appServicePlanName string
 param functionAppName string
 param keyVaultName string
 param keyVaultSecretName string
+param vnetName string
+param subnetName string
 param keyVaultSecretValue string
 param tenantId string
 param environment string
@@ -40,6 +42,16 @@ module appServicePlan 'appServicePlan.bicep' = {
   }
 }
 
+module vnet 'vnet.bicep' = {
+  name:'vnet'
+  params:{
+    environment:environment
+    vnetName:vnetName
+    subnetName:subnetName
+    location:location
+  }
+}
+
 module azureFunctionApp 'azureFunction.bicep' = {
   name:'functionApp'
   params:{
@@ -50,6 +62,7 @@ module azureFunctionApp 'azureFunction.bicep' = {
     storageAccountKey:storageAccount.outputs.stgAccountKey
     location:location
     storageAccountName:storageAccount.outputs.stgAccountName
+    subnetId:vnet.outputs.subnetId
   }
   dependsOn:[
     storageAccount
@@ -66,5 +79,6 @@ module keyVault 'keyVault.bicep' = {
     tenantId:tenantId
     topSecretValue:keyVaultSecretValue
     location:location
+    subnetId:vnet.outputs.subnetId
   }
 }
