@@ -3,7 +3,7 @@ param keyVaultName string
 param env string
 param tenantId string
 param secretName string
-param subnetId string
+//param subnetId string
 
 @secure()
 param topSecretValue string
