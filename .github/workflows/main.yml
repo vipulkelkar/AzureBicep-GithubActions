@@ -15,7 +15,7 @@ env:
   parameters.keyVaultSecretName.value: amstestsecret
   parameters.vnetName.value: amstestVnet${{ inputs.environment }}
   parameters.subnetName.value: amstestSubnet${{ inputs.environment }}
-  parameters.keyVaultSecretValue.value: topsecretvalue
+  parameters.keyVaultSecretValue.value: ${{ secrets.KEYVAULTSECRET }}
   parameters.tenantId.value: 3a6e195f-a33b-4031-a66a-0434183703d9
   parameters.environment.value: DEV
   parameters.resourceGroup.value: amsPune-${{ inputs.environment }}
@@ -30,8 +30,6 @@ jobs:
 
       # Checkout code
     - uses: actions/checkout@v3
-      with:
-        ref: dev
 
       # Log into Azure
     - uses: azure/login@v1
