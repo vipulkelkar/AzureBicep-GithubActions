@@ -44,7 +44,7 @@ jobs:
       uses: azure/arm-deploy@v1
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-        resourceGroupName: $parameters.resourceGroup.value
+        resourceGroupName: $ {{ parameters.resourceGroup.value }}
         template: ./appDeployment/main.bicep
         parameters: ./appDeployment/parameters.json
         failOnStdErr: false
