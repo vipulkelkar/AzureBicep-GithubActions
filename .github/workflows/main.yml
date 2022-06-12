@@ -19,7 +19,6 @@ env:
   parameters.tenantId.value: 3a6e195f-a33b-4031-a66a-0434183703d9
   parameters.environment.value: ${{ inputs.environment }}
   parameters.resourceGroup.value: amsPune-${{ inputs.environment }}
-  resourceGroup: amsPune-${{ inputs.environment }}
 
 name: My App Deployment
 jobs:
@@ -45,11 +44,12 @@ jobs:
       uses: azure/arm-deploy@v1
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-        resourceGroupName: ${{ env.resourceGroup }}
+        resourceGroupName: $parameters.resourceGroup.value
         template: ./appDeployment/main.bicep
         parameters: ./appDeployment/parameters.json
         failOnStdErr: false
   build-and-deploy-functionapp:
+    needs: create-azure-resources
     runs-on: windows-latest
     environment: ${{ inputs.environment }}
     steps:
@@ -63,4 +63,11 @@ jobs:
         app-name: $parameters.functionAppName.value
         package: ./FunctionApp
         publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
-
+      
+      # Configure azure function app settings
+    - uses: azure/appservice-settings@v1
+      with:
+        app-name: $parameters.functionAppName.value
+        app-settings-json: '${{ secrets.APP_SETTINGS }}' 
+        general-settings-json: '{"TestKey": "TestValue"}' #'General configuration settings as Key Value pairs'
+      id: settings
