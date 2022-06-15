@@ -73,6 +73,5 @@ jobs:
     - uses: azure/appservice-settings@v1
       with:
         app-name: amststfuncappdev
-        app-settings-json: '${{ secrets.APP_SETTINGS }}' 
-        general-settings-json: '{"TestKey": "TestValue"}' #'General configuration settings as Key Value pairs'
+        app-settings-json: '[{ "name": "MyCustomAppSetting", "value": "1", "slotSetting": false }]'
       id: settings
