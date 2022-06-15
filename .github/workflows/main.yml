@@ -61,6 +61,11 @@ jobs:
     - name: 'Checkout code'
       uses: actions/checkout@v3
 
+      # Log into Azure
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       # Deploy Azure Functions to the function app
     - name: 'Azure functions action'
       uses: Azure/functions-action@v1
