@@ -35,6 +35,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      # Perform variable substitution for Azure Bicep parameters json file
     - uses: microsoft/variable-substitution@v1 
       with:
         files: './appDeployment/parameters.json'
@@ -44,19 +45,22 @@ jobs:
       uses: azure/arm-deploy@v1
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-        resourceGroupName: $ {{ parameters.resourceGroup.value }}
+        resourceGroupName: $parameters.resourceGroup.value
         template: ./appDeployment/main.bicep
         parameters: ./appDeployment/parameters.json
         failOnStdErr: false
+
   build-and-deploy-functionapp:
     needs: create-azure-resources
     runs-on: windows-latest
     environment: ${{ inputs.environment }}
     steps:
+
       # Checkout code
     - name: 'Checkout code'
       uses: actions/checkout@v3
 
+      # Deploy Azure Functions to the function app
     - name: 'Azure functions action'
       uses: Azure/functions-action@v1
       with:
