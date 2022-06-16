@@ -2,4 +2,4 @@ az deployment group create --resource-group AzureBicepExample  --template-file b
 
 az deployment group create --resource-group AzureBicepExample  --template-file bicepsample\storageAccountExampleWithParameter.bicep --parameters storageAccountName='amstestwithparameter' environment='Dev'
 
-az deployment group create --resource-group AzureBicepExample  --template-file bicepsample\storageAccountExampleParameterFile.bicep -- parameters bicepsample\parameters.json
+az deployment group create --resource-group AzureBicepExample  --template-file bicepsample\storageAccountExampleParameterFile.bicep --parameters bicepsample\parameters.json
