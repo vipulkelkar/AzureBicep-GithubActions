@@ -17,7 +17,7 @@ env:
   parameters.subnetName.value: amstestSubnet${{ inputs.environment }}
   parameters.keyVaultSecretValue.value: ${{ secrets.KEYVAULTSECRET }}
   parameters.tenantId.value: 3a6e195f-a33b-4031-a66a-0434183703d9
-  parameters.environment.value: DEV
+  parameters.environment.value: ${{ inputs.environment }}
   parameters.resourceGroup.value: amsPune-${{ inputs.environment }}
   resourceGroup: amsPune-${{ inputs.environment }}
 
@@ -36,6 +36,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      # Perform variable substitution for Azure Bicep parameters json file
     - uses: microsoft/variable-substitution@v1 
       with:
         files: './appDeployment/parameters.json'
@@ -49,3 +50,33 @@ jobs:
         template: ./appDeployment/main.bicep
         parameters: ./appDeployment/parameters.json
         failOnStdErr: false
+
+  build-and-deploy-functionapp:
+    needs: create-azure-resources
+    runs-on: windows-latest
+    environment: ${{ inputs.environment }}
+    steps:
+
+      # Checkout code
+    - name: 'Checkout code'
+      uses: actions/checkout@v3
+
+      # Log into Azure
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Deploy Azure Functions to the function app
+    - name: 'Azure functions action'
+      uses: Azure/functions-action@v1
+      with:
+        app-name: $parameters.functionAppName.value
+        package: ./FunctionApp
+        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
+      
+      # Configure azure function app settings
+    - uses: azure/appservice-settings@v1
+      with:
+        app-name: amststfuncappdev
+        app-settings-json: '[{ "name": "MyCustomAppSetting", "value": "1", "slotSetting": false }]'
+      id: settings

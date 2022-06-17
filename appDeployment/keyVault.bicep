@@ -23,7 +23,7 @@ resource myVault 'Microsoft.KeyVault/vaults@2021-11-01-preview' = {
     tenantId:tenantId
     accessPolicies:[
       {
-        objectId:'3f0ad3e2-cea7-4d05-9e87-df9190c926ff'
+        objectId:'b59ef84c-991d-4f7f-a8b6-3c5347bf8e98'
         tenantId:tenantId
         permissions:{
           secrets:[
