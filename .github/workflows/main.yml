@@ -1,31 +1,82 @@
 on:
   workflow_dispatch:
     inputs:
-        releaseDescription:
-          description: 'Provide a release description.'
+        environment:
+          description: 'Provide the release environment'
           required: true
-name: Deploy Azure resources
+          type: environment
+env:
+  parameters.location.value: 'east us'
+  parameters.storageAccountName.value: amstststg${{ inputs.environment }}
+  parameters.appInsightName.value: amststappinsight${{ inputs.environment }}
+  parameters.appServicePlanName.value: amstest${{ inputs.environment }}-asp
+  parameters.functionAppName.value: amststfuncapp${{ inputs.environment }}
+  parameters.keyVaultName.value: amststvault${{ inputs.environment }}
+  parameters.keyVaultSecretName.value: amstestsecret
+  parameters.vnetName.value: amstestVnet${{ inputs.environment }}
+  parameters.subnetName.value: amstestSubnet${{ inputs.environment }}
+  parameters.keyVaultSecretValue.value: ${{ secrets.KEYVAULTSECRET }}
+  parameters.tenantId.value: 3a6e195f-a33b-4031-a66a-0434183703d9
+  parameters.environment.value: ${{ inputs.environment }}
+  parameters.resourceGroup.value: amsPune-${{ inputs.environment }}
+  resourceGroup: amsPune-${{ inputs.environment }}
+
+name: My App Deployment
 jobs:
   create-azure-resources:
+    environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     steps:
 
       # Checkout code
     - uses: actions/checkout@v3
-      with:
-        ref: dev
 
       # Log into Azure
     - uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      # Perform variable substitution for Azure Bicep parameters json file
+    - uses: microsoft/variable-substitution@v1 
+      with:
+        files: './appDeployment/parameters.json'
+
       # Deploy Bicep file
-    - name: deploy
+    - name: deploy bicep file
       uses: azure/arm-deploy@v1
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-        resourceGroupName: ${{ secrets.AZURE_RG }}
+        resourceGroupName: ${{ env.resourceGroup }}
         template: ./appDeployment/main.bicep
-        parameters: ./appDeployment/devparameters.json
+        parameters: ./appDeployment/parameters.json
         failOnStdErr: false
+
+  build-and-deploy-functionapp:
+    needs: create-azure-resources
+    runs-on: windows-latest
+    environment: ${{ inputs.environment }}
+    steps:
+
+      # Checkout code
+    - name: 'Checkout code'
+      uses: actions/checkout@v3
+
+      # Log into Azure
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Deploy Azure Functions to the function app
+    - name: 'Azure functions action'
+      uses: Azure/functions-action@v1
+      with:
+        app-name: $parameters.functionAppName.value
+        package: ./FunctionApp
+        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
+      
+      # Configure azure function app settings
+    - uses: azure/appservice-settings@v1
+      with:
+        app-name: amststfuncappdev
+        app-settings-json: '[{ "name": "MyCustomAppSetting", "value": "1", "slotSetting": false }]'
+      id: settings
