@@ -84,7 +84,6 @@ jobs:
       with:
         app-name: ${{ env.functionAppName }}
         package: ./FunctionApp
-        #publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
         publish-profile: ${{ steps.publishprofile.outputs.profile }}
       
       # Configure azure function app settings
