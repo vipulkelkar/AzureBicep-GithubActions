@@ -66,13 +66,24 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      # Get publish profile
+    - name: Get Function app publish profile
+      id: funcapppublishprofile
+      uses: aliencube/publish-profile-actions@v1
+      env: 
+        AZURE_CREDENTIALS : ${{ secrets.AZURE_CREDENTIALS }}
+      with:
+        resourceGroupName: ${{ env.resourceGroup }}
+        appName: $parameters.functionAppName.value
+
       # Deploy Azure Functions to the function app
     - name: 'Azure functions action'
       uses: Azure/functions-action@v1
       with:
         app-name: $parameters.functionAppName.value
         package: ./FunctionApp
-        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
+        #publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
+        publish-profile: ${{ steps.publishprofile.outputs.profile }}
       
       # Configure azure function app settings
     - uses: azure/appservice-settings@v1
